@@ -1053,10 +1053,25 @@
 
 
     // Always start at top on refresh/load
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
-    }
+   if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+window.addEventListener('load', function () {
+  setTimeout(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'auto'
+    });
+  }, 10);
+});
+
+window.addEventListener('pageshow', function () {
+  setTimeout(() => {
     window.scrollTo(0, 0);
+  }, 10);
+});
 
     document.addEventListener('DOMContentLoaded', function() {
       modal = document.getElementById('contactModal');
