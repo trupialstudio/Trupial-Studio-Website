@@ -575,12 +575,12 @@
 
   <!-- HERO -->
   <section class="hero" id="hero">
-    <img src="justbirdtansbkg.png" alt="" style="height:52px;width:auto;margin-bottom:22px;opacity:0;animation:fadeUp 0.8s 0s forwards;"/>
+    <img src="justbirdtansbkg.png" alt="" style="height:125px;width:auto;margin-bottom:22px;opacity:0;animation:fadeUp 0.8s 0s forwards;"/>
     <div class="hero-eyebrow" style="flex-direction:column;gap:6px;">
       <span style="font-size:0.95rem;letter-spacing:0.18em;color:var(--orange);">Trupial Studio</span>
       <span style="display:flex;align-items:center;gap:10px;">
         <span class="dot"></span>
-        Seattle, WA
+        Based in Seattle, WA
         <span class="dot"></span>
       </span>
     </div>
@@ -1050,6 +1050,13 @@
       modal.classList.remove('open');
       document.body.style.overflow = '';
     }
+
+
+    // Always start at top on refresh/load
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
 
     document.addEventListener('DOMContentLoaded', function() {
       modal = document.getElementById('contactModal');
