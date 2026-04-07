@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trupial Studio — Services Section Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --cream: #faf7f2;
+      --warm-white: #f5f0e8;
+      --ink: #1c1a17;
+      --orange: #e8701a;
+      --orange-light: #f2934a;
+      --dark-blue: #1a2535;
+      --mid: #6b6560;
+      --light-mid: #9b9590;
+      --line: rgba(28,26,23,0.1);
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Jost', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--cream); color: var(--ink); font-family: var(--sans); font-weight: 300; overflow-x: hidden; }
+
+    .section-label { font-size: 0.71rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+    .section-title { font-family: var(--serif); font-size: clamp(30px, 3.3vw, 48px); font-weight: 400; line-height: 1.1; letter-spacing: -0.01em; }
+    .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
+    .section-link { font-size: 0.73rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); text-decoration: none; border-bottom: 1px solid var(--orange); padding-bottom: 2px; white-space: nowrap; transition: opacity 0.2s; }
+    .section-link:hover { opacity: 0.7; }
+
+    .btn-orange { display: inline-block; padding: 14px 36px; background: var(--orange); color: white; font-family: var(--sans); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+    .btn-orange:hover { background: var(--dark-blue); transform: translateY(-2px); }
+    .btn-ghost { display: inline-block; padding: 13px 36px; border: 1.5px solid var(--ink); color: var(--ink); font-family: var(--sans); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; }
+    .btn-ghost:hover { background: var(--ink); color: var(--cream); }
+
+    .reveal { opacity:0; transform:translateY(22px); transition: opacity 0.75s ease, transform 0.75s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; } .d3 { transition-delay: 0.3s; }
+
+    /* ── HOW IT WORKS ── */
+    .how-it-works {
+      padding: 100px 60px 0;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 40px;
+    }
+
+    .step {
+      background: var(--warm-white);
+      padding: 40px 32px;
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .step:hover { background: white; }
+
+    .step-num {
+      font-family: var(--serif);
+      font-size: 2.4rem;
+      font-weight: 400;
+      color: var(--orange);
+      opacity: 0.3;
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+
+    .step-title {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+
+    .step-desc {
+      font-size: 0.83rem;
+      color: var(--mid);
+      line-height: 1.72;
+    }
+
+    .step-price {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-top: 16px;
+    }
+
+    /* ── BRAND TASTER CTA ── */
+    .taster-cta {
+      background: var(--dark-blue);
+      padding: 60px;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .taster-content {}
+
+    .taster-badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--orange-light);
+      border: 1px solid rgba(232,112,26,0.3);
+      padding: 4px 12px;
+      margin-bottom: 18px;
+    }
+
+    .taster-title {
+      font-family: var(--serif);
+      font-size: clamp(26px, 2.8vw, 38px);
+      font-weight: 400;
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+    .taster-title em { font-style: italic; color: var(--orange-light); }
+
+    .taster-price {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--orange-light);
+      margin-bottom: 16px;
+    }
+
+    .taster-desc {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.78;
+      margin-bottom: 28px;
+    }
+
+    .taster-btn {
+      display: inline-block;
+      padding: 14px 36px;
+      background: var(--orange);
+      color: white;
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .taster-btn:hover { background: var(--orange-light); transform: translateY(-2px); }
+
+    .taster-includes {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .taster-includes li {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      line-height: 1.5;
+    }
+
+    .taster-check {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border: 1px solid rgba(232,112,26,0.35);
+      background: rgba(232,112,26,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      color: var(--orange-light);
+      margin-top: 1px;
+    }
+
+    /* ── SERVICES GRID ── */
+    .services { background: var(--warm-white); padding: 100px 60px; }
+
+    .svc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+
+    .svc-card {
+      background: var(--cream);
+      padding: 36px 32px;
+      transition: background 0.3s;
+      position: relative;
+    }
+
+    .svc-card:hover { background: white; }
+
+    .svc-type {
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--light-mid);
+      margin-bottom: 12px;
+    }
+
+    .svc-name {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+
+    .svc-desc {
+      font-size: 0.82rem;
+      color: var(--mid);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .svc-price {
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .svc-price .from {
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: var(--light-mid);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .svc-price .per {
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: var(--light-mid);
+    }
+
+    /* ── RETAINER MENU ── */
+    .retainer { padding: 100px 60px; }
+
+    .retainer-items {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--line);
+    }
+
+    .retainer-item {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr auto;
+      gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: center;
+      transition: background 0.2s;
+    }
+
+    .retainer-item:hover {
+      background: var(--warm-white);
+      padding-left: 16px;
+      padding-right: 16px;
+      margin-left: -16px;
+      margin-right: -16px;
+    }
+
+    .ret-name {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-weight: 400;
+    }
+
+    .ret-desc {
+      font-size: 0.82rem;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+
+    .ret-price {
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      font-weight: 500;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .ret-price .from {
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: var(--light-mid);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .ret-price .per {
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: var(--light-mid);
+    }
+
+    /* ── BUNDLES ── */
+    .bundles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 56px;
+    }
+
+    .bundle-card {
+      background: var(--warm-white);
+      padding: 36px 28px;
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .bundle-card:hover { background: white; }
+
+    .bundle-card.featured {
+      background: var(--dark-blue);
+    }
+
+    .bundle-card.featured:hover { background: #1e2b3e; }
+
+    .bundle-card.featured .bundle-name,
+    .bundle-card.featured .bundle-price { color: white; }
+    .bundle-card.featured .bundle-desc { color: rgba(255,255,255,0.5); }
+    .bundle-card.featured .bundle-includes li { color: rgba(255,255,255,0.55); }
+    .bundle-card.featured .bundle-includes li::before { color: var(--orange-light); }
+
+    .bundle-popular {
+      display: inline-block;
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--orange-light);
+      border: 1px solid rgba(232,112,26,0.3);
+      padding: 3px 10px;
+      margin-bottom: 14px;
+    }
+
+    .bundle-name {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    .bundle-price {
+      font-family: var(--sans);
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .bundle-price .from {
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: var(--light-mid);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .bundle-price .per {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--light-mid);
+    }
+
+    .bundle-desc {
+      font-size: 0.78rem;
+      color: var(--mid);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .bundle-includes {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .bundle-includes li {
+      font-size: 0.76rem;
+      color: var(--mid);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bundle-includes li::before {
+      content: '✓';
+      color: var(--orange);
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    /* ── BOTTOM CTA ── */
+    .services-cta {
+      text-align: center;
+      padding: 80px 60px;
+      border-top: 1px solid var(--line);
+    }
+
+    .services-cta-text {
+      font-family: var(--serif);
+      font-size: clamp(22px, 2.5vw, 32px);
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+    .services-cta-text em { font-style: italic; color: var(--orange); }
+
+    .services-cta-sub {
+      font-size: 0.88rem;
+      color: var(--mid);
+      margin-bottom: 32px;
+    }
+
+    .services-cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .how-it-works, .services, .retainer, .services-cta { padding-left: 22px; padding-right: 22px; }
+      .taster-cta { grid-template-columns: 1fr; padding: 40px 22px; }
+      .steps { grid-template-columns: 1fr; }
+      .svc-grid { grid-template-columns: 1fr; }
+      .bundles { grid-template-columns: 1fr; }
+      .retainer-item { grid-template-columns: 1fr; gap: 8px; }
+      .ret-price { text-align: left; }
+      .ret-price .from { display: inline; margin-right: 4px; }
+      .services-cta-buttons { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works reveal">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Simple, flexible, built around you.</h2>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div class="step-title">Brand Taster</div>
+        <p class="step-desc">Fill out a quick form about your business. I'll review your website, socials, and competitors — and send you a mini strategy packet with sample assets.</p>
+        <div class="step-price">$75 · No commitment</div>
+      </div>
+      <div class="step reveal d1">
+        <div class="step-num">02</div>
+        <div class="step-title">Discovery Call</div>
+        <p class="step-desc">We hop on a free 20-minute call to walk through what I found, what I'd recommend, and which services make sense for your goals.</p>
+        <div class="step-price">Free · 20 minutes</div>
+      </div>
+      <div class="step reveal d2">
+        <div class="step-num">03</div>
+        <div class="step-title">Custom Package</div>
+        <p class="step-desc">Pick the services you need from the menu below — or choose a suggested bundle. I'll build a plan tailored to your brand and budget.</p>
+        <div class="step-price">You choose what fits</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRAND TASTER CTA -->
+  <div class="taster-cta reveal">
+    <div class="taster-content">
+      <div class="taster-badge">Start Here</div>
+      <h3 class="taster-title">The Brand <em>Taster</em></h3>
+      <div class="taster-price">$75</div>
+      <p class="taster-desc">Not sure what you need? Start here. For $75, I'll dig into your brand and show you exactly what I'd do — with real samples, not vague promises.</p>
+      <a href="mailto:grace@trupialstudio.com" class="taster-btn">Get Your Brand Taster</a>
+    </div>
+    <ul class="taster-includes">
+      <li><span class="taster-check">✓</span> Full review of your website, social media & competitors</li>
+      <li><span class="taster-check">✓</span> 2–3 sample assets tailored to your brand</li>
+      <li><span class="taster-check">✓</span> One-page strategy brief with priorities</li>
+      <li><span class="taster-check">✓</span> Free 20-min discovery call to discuss next steps</li>
+      <li><span class="taster-check">✓</span> Delivered within 5 business days</li>
+    </ul>
+  </div>
+
+  <!-- ONE-TIME PROJECTS -->
+  <section class="services" id="services">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">One-Time Projects</div>
+        <h2 class="section-title">Build the foundation.</h2>
+      </div>
+      <a href="mailto:grace@trupialstudio.com" class="section-link">Get a Quote →</a>
+    </div>
+
+    <div class="svc-grid">
+      <div class="svc-card reveal">
+        <div class="svc-type">Branding</div>
+        <div class="svc-name">Logo Design</div>
+        <p class="svc-desc">Custom logo with 2–3 concepts, 2 revision rounds, and final files in all formats you'll need.</p>
+        <div class="svc-price"><span class="from">From </span>$500</div>
+      </div>
+      <div class="svc-card reveal d1">
+        <div class="svc-type">Branding</div>
+        <div class="svc-name">Brand Identity Package</div>
+        <p class="svc-desc">Logo, color palette, typography, brand guidelines document, and social media templates.</p>
+        <div class="svc-price"><span class="from">From </span>$1,500</div>
+      </div>
+      <div class="svc-card reveal">
+        <div class="svc-type">Web</div>
+        <div class="svc-name">Website Design & Build</div>
+        <p class="svc-desc">Full site design and development, up to 5 pages, mobile responsive, SEO foundations included.</p>
+        <div class="svc-price"><span class="from">From </span>$1,500</div>
+      </div>
+      <div class="svc-card reveal d1">
+        <div class="svc-type">Web + Branding</div>
+        <div class="svc-name">Website + Brand Bundle</div>
+        <p class="svc-desc">Complete brand identity and website together — everything you need to launch or relaunch.</p>
+        <div class="svc-price"><span class="from">From </span>$3,000</div>
+      </div>
+      <div class="svc-card reveal">
+        <div class="svc-type">Strategy</div>
+        <div class="svc-name">Social Media Audit</div>
+        <p class="svc-desc">Deep review of all channels with actionable strategy doc and content calendar template.</p>
+        <div class="svc-price"><span class="from">From </span>$400</div>
+      </div>
+      <div class="svc-card reveal d1">
+        <div class="svc-type">Strategy</div>
+        <div class="svc-name">SEO Audit & Roadmap</div>
+        <p class="svc-desc">Technical audit, keyword research, competitor analysis, and a prioritized action plan.</p>
+        <div class="svc-price"><span class="from">From </span>$500</div>
+      </div>
+      <div class="svc-card reveal">
+        <div class="svc-type">Photography</div>
+        <div class="svc-name">Brand Photo Session</div>
+        <p class="svc-desc">2-hour lifestyle or product shoot with 20–30 edited images. Seattle/Kirkland area.</p>
+        <div class="svc-price"><span class="from">From </span>$400</div>
+      </div>
+      <div class="svc-card reveal d1">
+        <div class="svc-type">PR</div>
+        <div class="svc-name">Press Release & Pitch</div>
+        <p class="svc-desc">One professionally written press release pitched to relevant media outlets.</p>
+        <div class="svc-price"><span class="from">From </span>$300</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MONTHLY RETAINER -->
+  <section class="retainer">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">Monthly Services</div>
+        <h2 class="section-title">Pick what you need.<br>I'll build the plan.</h2>
+      </div>
+      <a href="mailto:grace@trupialstudio.com" class="section-link">Build a Package →</a>
+    </div>
+
+    <div class="retainer-items">
+      <div class="retainer-item reveal">
+        <div class="ret-name">Social Media Management</div>
+        <div class="ret-desc">12–15 posts/mo across 2 platforms, content calendar, community management, monthly analytics report</div>
+        <div class="ret-price"><span class="from">From</span> $800 <span class="per">/mo</span></div>
+      </div>
+      <div class="retainer-item reveal d1">
+        <div class="ret-name">Content Writing</div>
+        <div class="ret-desc">2 SEO-optimized blog posts or articles per month (800–1,200 words each)</div>
+        <div class="ret-price"><span class="from">From</span> $600 <span class="per">/mo</span></div>
+      </div>
+      <div class="retainer-item reveal">
+        <div class="ret-name">SEO Management</div>
+        <div class="ret-desc">Ongoing keyword tracking, on-page optimization, monthly technical checks, performance reporting</div>
+        <div class="ret-price"><span class="from">From</span> $500 <span class="per">/mo</span></div>
+      </div>
+      <div class="retainer-item reveal d1">
+        <div class="ret-name">Graphic Design</div>
+        <div class="ret-desc">Up to 10 custom assets/mo — social graphics, flyers, presentations, ad creatives</div>
+        <div class="ret-price"><span class="from">From</span> $500 <span class="per">/mo</span></div>
+      </div>
+      <div class="retainer-item reveal">
+        <div class="ret-name">Email Marketing</div>
+        <div class="ret-desc">2 campaigns/mo, list management, basic automations, open & click reporting</div>
+        <div class="ret-price"><span class="from">From</span> $450 <span class="per">/mo</span></div>
+      </div>
+      <div class="retainer-item reveal d1">
+        <div class="ret-name">PR & Media Outreach</div>
+        <div class="ret-desc">Ongoing media pitching, press releases, relationship building with relevant outlets</div>
+        <div class="ret-price"><span class="from">From</span> $600 <span class="per">/mo</span></div>
+      </div>
+    </div>
+
+    <!-- BUNDLES -->
+    <div class="section-label reveal" style="margin-top:56px;">Suggested Bundles</div>
+    <div class="bundles">
+      <div class="bundle-card reveal">
+        <div class="bundle-name">The Essentials</div>
+        <div class="bundle-price"><span class="from">From </span>$1,170 <span class="per">/mo</span></div>
+        <p class="bundle-desc">For businesses that need consistent brand presence without the overwhelm.</p>
+        <ul class="bundle-includes">
+          <li>Social Media Management</li>
+          <li>Graphic Design Retainer</li>
+          <li>Monthly reporting</li>
+        </ul>
+      </div>
+      <div class="bundle-card featured reveal d1">
+        <div class="bundle-popular">Most Popular</div>
+        <div class="bundle-name">Growth Engine</div>
+        <div class="bundle-price"><span class="from" style="color:rgba(255,255,255,0.35);">From </span>$1,710 <span class="per" style="color:rgba(255,255,255,0.4);">/mo</span></div>
+        <p class="bundle-desc">For brands ready to build real organic traffic and an engaged audience.</p>
+        <ul class="bundle-includes">
+          <li>Social Media Management</li>
+          <li>Content Writing</li>
+          <li>SEO Management</li>
+          <li>Monthly reporting</li>
+        </ul>
+      </div>
+      <div class="bundle-card reveal d2">
+        <div class="bundle-name">Full Flight</div>
+        <div class="bundle-price"><span class="from">From </span>$2,565 <span class="per">/mo</span></div>
+        <p class="bundle-desc">The comprehensive package — everything your brand needs to take off.</p>
+        <ul class="bundle-includes">
+          <li>Social Media Management</li>
+          <li>Content Writing</li>
+          <li>SEO Management</li>
+          <li>Graphic Design Retainer</li>
+          <li>Email Marketing</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM CTA -->
+  <div class="services-cta reveal">
+    <h3 class="services-cta-text">Not sure where to start? <em>That's what the Brand Taster is for.</em></h3>
+    <p class="services-cta-sub">$75 gets you a full review, sample assets, and a strategy call. No strings attached.</p>
+    <div class="services-cta-buttons">
+      <a href="mailto:grace@trupialstudio.com" class="btn-orange">Get Your Brand Taster</a>
+      <a href="mailto:grace@trupialstudio.com" class="btn-ghost">Or Just Say Hi</a>
+    </div>
+  </div>
+
+  <script>
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
