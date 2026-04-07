@@ -57,25 +57,8 @@
     .nav-toggle.open .nav-toggle-lines span:nth-child(1) { top: 5px; transform: rotate(45deg); }
     .nav-toggle.open .nav-toggle-lines span:nth-child(2) { opacity: 0; }
     .nav-toggle.open .nav-toggle-lines span:nth-child(3) { top: 5px; transform: rotate(-45deg); }
-    .mobile-nav {
-      display: none;
-      position: fixed; top: 78px; left: 12px; right: 12px; z-index: 290;
-      background: rgba(250,247,242,0.97); backdrop-filter: blur(18px);
-      border: 1px solid rgba(28,26,23,0.08); border-radius: 22px;
-      box-shadow: 0 18px 40px rgba(26,37,53,0.08);
-      padding: 14px;
-    }
-    .mobile-nav.open { display: block; }
-    .mobile-nav a, .mobile-nav button {
-      width: 100%; display: flex; align-items: center; justify-content: space-between;
-      text-align: left; text-decoration: none; font-family: var(--sans);
-      font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--ink); background: white; border: 1px solid var(--line);
-      border-radius: 16px; padding: 15px 16px; margin-bottom: 10px; cursor: pointer;
-    }
-    .mobile-nav .mobile-nav-cta {
-      background: var(--orange); color: white; border-color: transparent;
-    }
+    .mobile-nav-backdrop { display: none; }
+    .mobile-nav { display: none; }
 
     /* ── HERO ── */
     .hero {
@@ -389,12 +372,72 @@
     .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; } .d3 { transition-delay: 0.3s; }
 
     @media (max-width: 900px) {
-      nav { top: 12px; left: 12px; right: 12px; padding: 12px 14px; border-radius: 16px; }
+      nav {
+        top: 0; left: 0; right: 0;
+        padding: 14px 16px;
+        border-radius: 0;
+        background: rgba(250,247,242,0.96);
+        border-bottom: 1px solid var(--line);
+      }
       .nav-links, .nav-cta { display: none; }
-      .nav-toggle { display: inline-flex; }
-      .mobile-nav { top: 78px; left: 12px; right: 12px; }
+      .nav-toggle {
+        display: inline-flex;
+        width: 44px; height: 44px;
+        border-radius: 50%;
+        border: 1px solid rgba(28,26,23,0.08);
+        background: rgba(255,255,255,0.75);
+      }
       .nav-brand img { height: 36px; }
-      .hero { padding: 120px 24px 60px; min-height: auto; }
+      .nav-descriptor { font-size: 0.52rem; letter-spacing: 0.13em; }
+      .mobile-nav-backdrop {
+        display: none;
+        position: fixed;
+        inset: 61px 0 0 0;
+        z-index: 285;
+        background: rgba(250,247,242,0.92);
+      }
+      .mobile-nav-backdrop.open { display: block; }
+      .mobile-nav {
+        display: none;
+        position: fixed;
+        top: 61px;
+        left: 0;
+        right: 0;
+        z-index: 290;
+        background: rgba(250,247,242,0.98);
+        border-bottom: 1px solid var(--line);
+        padding: 10px 16px 16px;
+      }
+      .mobile-nav.open { display: block; }
+      .mobile-nav a,
+      .mobile-nav button {
+        width: 100%;
+        display: block;
+        text-align: left;
+        text-decoration: none;
+        font-family: var(--sans);
+        font-size: 0.78rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink);
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(28,26,23,0.08);
+        border-radius: 0;
+        padding: 18px 0;
+        margin: 0;
+        box-shadow: none;
+      }
+      .mobile-nav a span,
+      .mobile-nav button span {
+        float: right;
+        opacity: 0.55;
+      }
+      .mobile-nav .mobile-nav-cta {
+        color: var(--orange);
+        font-weight: 500;
+      }
+      .hero { padding: 110px 24px 60px; min-height: auto; }
       .hero-headline { font-size: clamp(36px, 8vw, 56px); }
       .hero-sub { font-size: 0.95rem; }
       .hero-actions { flex-direction: column; gap: 12px; width: 100%; margin-bottom: 48px; }
@@ -521,11 +564,13 @@
     </div>
   </nav>
 
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+
   <div class="mobile-nav" id="mobileNav">
     <a href="#services">Services <span>→</span></a>
     <a href="#portfolio">Work <span>→</span></a>
     <a href="#about">About <span>→</span></a>
-    <button class="mobile-nav-cta" onclick="openModal()">Start Here <span>→</span></button>
+    <button class="mobile-nav-cta" onclick="openModal()">Contact <span>→</span></button>
   </div>
 
   <!-- HERO -->
@@ -986,13 +1031,14 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    let modal, contactForm, contactSuccess, mobileNav, navToggle;
+    let modal, contactForm, contactSuccess, mobileNav, navToggle, mobileNavBackdrop;
 
     function closeMobileNav() {
       if (!mobileNav || !navToggle) return;
       mobileNav.classList.remove('open');
       navToggle.classList.remove('open');
       navToggle.setAttribute('aria-expanded', 'false');
+      if (mobileNavBackdrop) mobileNavBackdrop.classList.remove('open');
     }
 
     function openModal() {
@@ -1011,6 +1057,7 @@
       contactSuccess = document.getElementById('contactSuccess');
       mobileNav = document.getElementById('mobileNav');
       navToggle = document.getElementById('navToggle');
+      mobileNavBackdrop = document.getElementById('mobileNavBackdrop');
       const modalClose = document.getElementById('modalClose');
 
       if (navToggle) {
@@ -1018,7 +1065,12 @@
           const isOpen = mobileNav.classList.toggle('open');
           navToggle.classList.toggle('open', isOpen);
           navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          if (mobileNavBackdrop) mobileNavBackdrop.classList.toggle('open', isOpen);
         });
+      }
+
+      if (mobileNavBackdrop) {
+        mobileNavBackdrop.addEventListener('click', closeMobileNav);
       }
 
       document.querySelectorAll('.mobile-nav a').forEach(link => {
