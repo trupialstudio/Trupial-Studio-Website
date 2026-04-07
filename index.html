@@ -27,7 +27,7 @@
     nav {
       position: fixed; top:0; left:0; right:0;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 60px; z-index: 200;
+      padding: 14px 60px; z-index: 300;
       background: rgba(250,247,242,0.94); backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--line);
     }
@@ -40,6 +40,42 @@
     .nav-links a:hover { color: var(--orange); }
     .nav-cta { font-size: 0.73rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; background: var(--orange); color: white; padding: 10px 22px; transition: background 0.2s; border: none; cursor: pointer; font-family: var(--sans); }
     .nav-cta:hover { background: var(--dark-blue); }
+    .nav-toggle {
+      display: none; align-items: center; justify-content: center;
+      width: 46px; height: 46px; border-radius: 50%;
+      border: 1px solid rgba(28,26,23,0.08); background: rgba(255,255,255,0.7);
+      cursor: pointer;
+    }
+    .nav-toggle-lines { position: relative; width: 18px; height: 12px; display: block; }
+    .nav-toggle-lines span {
+      position: absolute; left: 0; width: 100%; height: 1.5px; background: var(--ink);
+      transition: transform 0.25s ease, opacity 0.25s ease, top 0.25s ease;
+    }
+    .nav-toggle-lines span:nth-child(1) { top: 0; }
+    .nav-toggle-lines span:nth-child(2) { top: 5px; }
+    .nav-toggle-lines span:nth-child(3) { top: 10px; }
+    .nav-toggle.open .nav-toggle-lines span:nth-child(1) { top: 5px; transform: rotate(45deg); }
+    .nav-toggle.open .nav-toggle-lines span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open .nav-toggle-lines span:nth-child(3) { top: 5px; transform: rotate(-45deg); }
+    .mobile-nav {
+      display: none;
+      position: fixed; top: 78px; left: 12px; right: 12px; z-index: 290;
+      background: rgba(250,247,242,0.97); backdrop-filter: blur(18px);
+      border: 1px solid rgba(28,26,23,0.08); border-radius: 22px;
+      box-shadow: 0 18px 40px rgba(26,37,53,0.08);
+      padding: 14px;
+    }
+    .mobile-nav.open { display: block; }
+    .mobile-nav a, .mobile-nav button {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      text-align: left; text-decoration: none; font-family: var(--sans);
+      font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink); background: white; border: 1px solid var(--line);
+      border-radius: 16px; padding: 15px 16px; margin-bottom: 10px; cursor: pointer;
+    }
+    .mobile-nav .mobile-nav-cta {
+      background: var(--orange); color: white; border-color: transparent;
+    }
 
     /* ── HERO ── */
     .hero {
@@ -117,9 +153,9 @@
     .story-fact-body p { font-size: 0.81rem; color: rgba(255,255,255,0.4); line-height: 1.6; }
 
     /* ── ABOUT ── */
-    .about { padding: 130px 60px; display: grid; grid-template-columns: 0.7fr 1.4fr; gap: 80px; align-items: center; }
-    .about-img-wrap { position: relative; }
-    .about-img-frame { width: 100%; aspect-ratio: 4/5; background: var(--warm-white); border: 1px solid var(--line); position: relative; overflow: hidden; }
+    .about { padding: 130px 60px; display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 72px; align-items: center; }
+    .about-img-wrap { position: relative; display: flex; justify-content: center; }
+    .about-img-frame { width: min(100%, 420px); aspect-ratio: 4/5; background: var(--warm-white); border: 1px solid var(--line); position: relative; overflow: hidden; }
     .about-photo { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; transition: transform 0.5s ease; }
     .about-img-frame:hover .about-photo { transform: scale(1.03); }
     .about-img-caption { position: absolute; bottom: 0; left: 0; right: 0; background: var(--ink); padding: 22px 26px; color: white; }
@@ -164,7 +200,7 @@
     /* ── ONE-TIME SERVICES GRID ── */
     .services { background: var(--warm-white); padding: 100px 60px; }
     .svc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
-    .svc-card { background: var(--cream); padding: 36px 32px; transition: background 0.3s; position: relative; }
+    .svc-card { background: var(--cream); padding: 36px 32px; transition: background 0.3s; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 220px; }
     .svc-card:hover { background: white; }
     .svc-type { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--light-mid); margin-bottom: 12px; }
     .svc-name { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; margin-bottom: 8px; line-height: 1.25; }
@@ -353,8 +389,10 @@
     .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; } .d3 { transition-delay: 0.3s; }
 
     @media (max-width: 900px) {
-      nav { padding: 12px 22px; }
-      .nav-links { display: none; }
+      nav { top: 12px; left: 12px; right: 12px; padding: 12px 14px; border-radius: 16px; }
+      .nav-links, .nav-cta { display: none; }
+      .nav-toggle { display: inline-flex; }
+      .mobile-nav { top: 78px; left: 12px; right: 12px; }
       .nav-brand img { height: 36px; }
       .hero { padding: 120px 24px 60px; min-height: auto; }
       .hero-headline { font-size: clamp(36px, 8vw, 56px); }
@@ -368,6 +406,8 @@
       .story-band { grid-template-columns: 1fr; padding: 60px 22px; }
       .story-divider { display: none; }
       .about { grid-template-columns: 1fr; padding: 80px 22px; gap: 36px; }
+      .about-img-wrap { justify-content: flex-start; }
+      .about-img-frame { width: min(100%, 320px); }
       .how-it-works, .services, .retainer, .portfolio, .experience, .cta { padding-left: 22px; padding-right: 22px; }
       .dark-bottom-band { padding: 60px 22px; }
       .taster-cta { grid-template-columns: 1fr; padding: 40px 22px; }
@@ -459,24 +499,38 @@
 
   <!-- NAV -->
   <nav>
-    <a href="#" class="nav-brand">
+    <a href="#hero" class="nav-brand">
       <img src="justbirdtansbkg.png" alt="Trupial Studio"/>
       <span class="nav-descriptor">Digital Marketing by Grace Trupia</span>
     </a>
     <div class="nav-right">
       <ul class="nav-links">
-        <li><a href="#about">About</a></li>
         <li><a href="#services">Services</a></li>
-        <li><a href="#portfolio">Portfolio</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#portfolio">Work</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#" onclick="openModal();return false;">Contact</a></li>
       </ul>
-      <button onclick="openModal()" class="nav-cta">Let's Fly</button>
+      <button onclick="openModal()" class="nav-cta">Start Here</button>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+        <span class="nav-toggle-lines">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
     </div>
   </nav>
 
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#services">Services <span>→</span></a>
+    <a href="#portfolio">Work <span>→</span></a>
+    <a href="#about">About <span>→</span></a>
+    <button class="mobile-nav-cta" onclick="openModal()">Start Here <span>→</span></button>
+  </div>
+
   <!-- HERO -->
   <section class="hero" id="hero">
-    <img src="justbirdtansbkg.png" alt="" style="height:52px;width:auto;margin-bottom:16px;opacity:0;animation:fadeUp 0.8s 0s forwards;"/>
+    <img src="justbirdtansbkg.png" alt="" style="height:52px;width:auto;margin-bottom:22px;opacity:0;animation:fadeUp 0.8s 0s forwards;"/>
     <div class="hero-eyebrow" style="flex-direction:column;gap:6px;">
       <span style="font-size:0.95rem;letter-spacing:0.18em;color:var(--orange);">Trupial Studio</span>
       <span style="display:flex;align-items:center;gap:10px;">
@@ -560,36 +614,6 @@
       </div>
     </div>
   </div>
-
-  <!-- ABOUT -->
-  <section class="about" id="about">
-    <div class="about-img-wrap reveal">
-      <div class="about-img-frame">
-        <img src="aboutimage.jpeg" class="about-photo" alt="Grace Trupia"/>
-        <div class="about-img-caption">
-          <h3>Grace Trupia</h3>
-          <span>Founder & Creative Director</span>
-        </div>
-      </div>
-    </div>
-    <div class="about-text">
-      <div class="section-label reveal">The Person Behind the Studio</div>
-      <h2 class="reveal">Marketing with heart,<br>strategy with <em style="font-style:italic;color:var(--orange)">soul.</em></h2>
-      <p class="reveal">Grace grew up in New Jersey, took a detour through national service right out of high school, and came out the other side knowing exactly what she wanted to do. Her year with AmeriCorps NCCC took her across the country — rebuilding homes after Hurricane Harvey, supporting COVID vaccine sites in Texas, restoring community gardens in Missouri — and somewhere in between she started filming and editing videos about it. That's when marketing clicked.</p>
-      <p class="reveal">She went on to study communications and digital marketing at Siena College, spent a semester abroad in Cork, Ireland, and graduated with honors in 2025. Along the way she interned at Hackensack Meridian Health, where she pitched stories that reached <span class="highlight">147 million people</span>, led a nonprofit marketing expansion for Girls on the Run, and designed content across social media, print, and web.</p>
-      <p class="reveal">She recently packed up and moved to Seattle, where she lives with her two cats, experiments constantly in the kitchen, and is always planning the next trip. Trupial Studio is her way of doing work she loves, for brands she actually believes in.</p>
-      <div class="about-creds reveal">
-        <span class="cred-tag">BA Comms & Digital Marketing</span>
-        <span class="cred-tag">Siena College '25</span>
-        <span class="cred-tag">Semester Abroad · Cork, Ireland</span>
-        <span class="cred-tag">AmeriCorps NCCC Alum</span>
-        <span class="cred-tag">PR & Media Pitching</span>
-        <span class="cred-tag">Social Media Strategy</span>
-        <span class="cred-tag">Adobe Creative Suite</span>
-        <span class="cred-tag">Graphic Design</span>
-      </div>
-    </div>
-  </section>
 
   <!-- HOW IT WORKS -->
   <section class="how-it-works reveal" id="services">
@@ -827,6 +851,38 @@
     </div>
   </section>
 
+
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-img-wrap reveal">
+      <div class="about-img-frame">
+        <img src="aboutimage.jpeg" class="about-photo" alt="Grace Trupia"/>
+        <div class="about-img-caption">
+          <h3>Grace Trupia</h3>
+          <span>Founder & Creative Director</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="section-label reveal">The Person Behind the Studio</div>
+      <h2 class="reveal">Marketing with heart,<br>strategy with <em style="font-style:italic;color:var(--orange)">soul.</em></h2>
+      <p class="reveal">Grace grew up in New Jersey, took a detour through national service right out of high school, and came out the other side knowing exactly what she wanted to do. Her year with AmeriCorps NCCC took her across the country — rebuilding homes after Hurricane Harvey, supporting COVID vaccine sites in Texas, restoring community gardens in Missouri — and somewhere in between she started filming and editing videos about it. That's when marketing clicked.</p>
+      <p class="reveal">She went on to study communications and digital marketing at Siena College, spent a semester abroad in Cork, Ireland, and graduated with honors in 2025. Along the way she interned at Hackensack Meridian Health, where she pitched stories that reached <span class="highlight">147 million people</span>, led a nonprofit marketing expansion for Girls on the Run, and designed content across social media, print, and web.</p>
+      <p class="reveal">She recently packed up and moved to Seattle, where she lives with her two cats, experiments constantly in the kitchen, and is always planning the next trip. Trupial Studio is her way of doing work she loves, for brands she actually believes in.</p>
+      <div class="about-creds reveal">
+        <span class="cred-tag">BA Comms & Digital Marketing</span>
+        <span class="cred-tag">Siena College '25</span>
+        <span class="cred-tag">Semester Abroad · Cork, Ireland</span>
+        <span class="cred-tag">AmeriCorps NCCC Alum</span>
+        <span class="cred-tag">PR & Media Pitching</span>
+        <span class="cred-tag">Social Media Strategy</span>
+        <span class="cred-tag">Adobe Creative Suite</span>
+        <span class="cred-tag">Graphic Design</span>
+      </div>
+    </div>
+  </section>
+
   <!-- BIRD DIVIDER -->
   <div class="bird-divider">
     <div class="bird-divider-line"></div>
@@ -930,9 +986,17 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    let modal, contactForm, contactSuccess;
+    let modal, contactForm, contactSuccess, mobileNav, navToggle;
+
+    function closeMobileNav() {
+      if (!mobileNav || !navToggle) return;
+      mobileNav.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
 
     function openModal() {
+      closeMobileNav();
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
@@ -945,14 +1009,31 @@
       modal = document.getElementById('contactModal');
       contactForm = document.getElementById('contactForm');
       contactSuccess = document.getElementById('contactSuccess');
+      mobileNav = document.getElementById('mobileNav');
+      navToggle = document.getElementById('navToggle');
       const modalClose = document.getElementById('modalClose');
+
+      if (navToggle) {
+        navToggle.addEventListener('click', function() {
+          const isOpen = mobileNav.classList.toggle('open');
+          navToggle.classList.toggle('open', isOpen);
+          navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+      }
+
+      document.querySelectorAll('.mobile-nav a').forEach(link => {
+        link.addEventListener('click', closeMobileNav);
+      });
 
       modalClose.addEventListener('click', closeModal);
       modal.addEventListener('click', function(e) {
         if (e.target === modal) closeModal();
       });
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeModal();
+        if (e.key === 'Escape') {
+          closeModal();
+          closeMobileNav();
+        }
       });
 
       contactForm.addEventListener('submit', async function(e) {
